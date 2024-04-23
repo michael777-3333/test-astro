@@ -1,0 +1,43 @@
+---
+import { eq } from "astro:db";
+import { db, User, Category, Todo } from "astro:db";
+const users = await db.select().from(User);
+const categories = await db.select().from(Category);
+const todos =await db.select().from(Todo)
+
+// tarer los usuario del todo
+// const todos =await db.select().from(Todo).innerJoin(User,eq(Todo.user_id, User.id))
+
+// filtramos por username, utilizando innerJoin
+// const todos = await db
+//   .select()
+//   .from(Todo)
+//   .innerJoin(User, eq(Todo.user_id, User.id))
+//   .innerJoin(Category,eq(Todo.category_id, Category.id))
+//   .where(eq(User.username, "pepito"));
+
+console.log(todos);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    <h1>Usuarios</h1>
+    {users.map((user) => <li>{user.username}</li>)}
+
+    <h1>Categorias</h1>
+    {categories.map((cater) => <li>{cater.label}</li>)}
+
+	<h1>Todos</h1>
+    {todos.map((todo) => 
+		<li>
+      {todo.user_id}
+		</li>)}
+  </body>
+</html>
